@@ -1,0 +1,4 @@
+#!/bin/sh
+
+# get the current branch
+git branch --no-color --show-current

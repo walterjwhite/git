@@ -1,0 +1,13 @@
+#!/bin/sh
+
+_COMMITS=2
+
+# squash commit
+if [ "$#" -gt "0" ]
+then
+  _COMMITS=$1
+  shift
+fi
+
+git reset --soft HEAD~$_COMMITS\
+  && git commit

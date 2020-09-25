@@ -1,0 +1,19 @@
+#!/bin/sh
+
+if [ "$#" -lt "1" ]
+then
+    echo "Branch is required"
+    exit 1
+fi
+
+_BRANCH=$1
+shift
+
+_CURRENT_BRANCH=$(gcb)
+
+if [ "$_CURRENT_BRANCH" = "$_BRANCH" ]
+then
+    exit 0
+fi
+
+git checkout $_BRANCH

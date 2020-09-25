@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# install hooks
+if [ ! -e ~/.git-hooks ]
+then
+    echo "~/.git-hooks configuration does NOT exist, unable to continue"
+    exit 1
+fi
+
+. ~/.git-hooks
+cp hooks/* $_SYSTEM_HOOK_PATH

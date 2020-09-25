@@ -1,0 +1,19 @@
+#!/bin/sh
+
+_INACTIVITY_PERIOD="-30d"
+
+_BRANCH_DELIMETER=@
+_INACTIVITY_DATE=$(date -v $_INACTIVITY_PERIOD +%Y/%M/%D)
+
+# delete old branches
+for _BRANCH in $(gb)
+do
+    _HAS_CHANGES=$(gcs -b=$_BRANCH $_INACTIVITY_DATE | wc -l)
+    if [ "$_HAS_CHANGES" -eq "0" ]
+    then
+        echo "Deleting / Archiving $_BRANCH - NO changes in $_INACTIVITY_PERIOD"
+
+        _SOURCE_BRANCH=$(echo $_BRANCH | cut -f1 d$_BRANCH_DELIMETER)
+        ga $_SOURCE_BRANCH $_BRANCH
+    fi
+done

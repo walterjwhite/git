@@ -1,0 +1,3 @@
+#!/bin/sh
+
+./.git/hooks/.git-hooks.sh post-receive $@

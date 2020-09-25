@@ -1,0 +1,15 @@
+#!/bin/sh
+
+# TODO: support amending dates on specified commits
+# this will require branching, merging / cherry-picking
+if [ "$#" -lt "1" ]
+then
+  echo "git amend date"
+  echo "Date is required, ie. Wed Dec 19 09:21:37 2018 -0500"
+  exit 1
+fi
+
+_DATE="$1"
+shift
+
+git commit --amend --no-edit --date="$_DATE"

@@ -1,0 +1,8 @@
+#!/bin/sh
+
+GIT_PREVIOUS_HEAD="$1"
+GIT_NEW_HEAD="$2"
+GIT_IS_BRANCH="$3"
+
+export GIT_PREVIOUS_HEAD GIT_NEW_HEAD GIT_IS_BRANCH
+./.git/hooks/.git-hooks.sh post-checkout $@

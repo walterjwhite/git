@@ -1,0 +1,49 @@
+#!/bin/sh
+
+. _LIBRARY_PATH/_APPLICATION_NAME/project.directory.sh
+. _LIBRARY_PATH/install/logging.sh
+
+# changed files since
+for _ARG in $@
+do
+    case $_ARG in
+        # lines
+        -i=*)
+            _IDENTIFIER="${_ARG#*=}"
+            shift
+            ;;
+        -s=*)
+            _SINCE="${_ARG#*=}"
+            shift
+            ;;
+        -b=*)
+            _BRANCH="${_ARG#*=}"
+            shift
+            ;;
+    esac
+done
+
+if [ -z "$_IDENTIFIER" ]
+then
+    if [ -n "$_SINCE" ]
+    then
+        if [ -n "$_BRANCH" ]
+        then
+            _OPTIONS="-b=$_BRANCH"
+        fi
+
+        _IDENTIFIER=$(gcs $_OPTIONS $_SINCE | tail -1)
+
+        if [ -z "$_IDENTIFIER" ]
+        then
+            exitWithError "Unable to find anything with criteria $_SINCE / $_BRANCH" 2
+        fi
+    elif [ -n "$_BRANCH" ]
+    then
+        _IDENTIFIER=$_BRANCH
+    else
+        exitWithError "Identifier is required" 1
+    fi
+fi
+
+git diff --name-only $(gpc $_IDENTIFIER)

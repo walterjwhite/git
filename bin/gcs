@@ -1,0 +1,27 @@
+#!/bin/sh
+
+. _LIBRARY_PATH/_APPLICATION_NAME/project.directory.sh
+. _LIBRARY_PATH/install/logging.sh
+
+# prints a list of commits since a date ...
+for _ARG in $@
+do
+    case $_ARG in
+        # lines
+        -b=*)
+            _BRANCH="${_ARG#*=}"
+            shift
+            ;;
+        *)
+            _SINCE=$_ARG
+    esac
+done
+
+if [ -z "$_SINCE" ]
+then
+    exitWithError "Since is required" 1
+fi
+
+git log $_BRANCH --since="$_SINCE"\
+    | grep commit\
+    | awk '{print$2}'

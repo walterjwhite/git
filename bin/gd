@@ -1,0 +1,11 @@
+#!/bin/sh
+
+_HAS_COMMITS=$(git log -1 2>/dev/null | grep commit | wc -l)
+if [ "$_HAS_COMMITS" -gt "0" ]
+then
+    git diff HEAD^ HEAD --unified -w
+else
+    find . -type f\
+    | grep -v \\.git\
+    | xargs -L 1 -I _F $EDITOR _F
+fi

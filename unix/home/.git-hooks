@@ -1,0 +1,7 @@
+#!/bin/sh
+
+_SYSTEM_HOOK_PATH=/usr/local/share/git-core/templates
+
+_log() {
+    logger -i -t $1 $2
+}
