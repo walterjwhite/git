@@ -3,10 +3,10 @@
 _PROJECT_BASE_PATH=~/projects
 
 # configure mirror location
-. ~/.config/git-helpers
+. _APPLICATION_CONFIG_PATH_
 
 _git() {
-    cd $_PROJECT
+    cd $_PROJECT_PATH
     
     git add $1
     git commit $1 -m "$2"
@@ -14,10 +14,8 @@ _git() {
 }
 
 _git_init() {
-    if [ ! -e $_PROJECT ]
+    if [ ! -e $_PROJECT_PATH ]
     then
-        git init $_PROJECT
-
-        git remote add origin "$MIRROR/$_PROJECT"
+        git clone "$MIRROR/$_PROJECT" $_PROJECT_PATH
     fi
 }

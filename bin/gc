@@ -1,11 +1,11 @@
 #!/bin/sh
 
+. _LIBRARY_PATH_/install/logging.sh
+
 # ensure commit message follows a template
 if [ "$#" -lt "1" ]
 then
-  echo "git commit"
-  echo "message is required."
-  exit 1
+  exitWithError "git commit: message is required." 1
 fi
 
 _BRANCH=$(gcb)

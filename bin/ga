@@ -1,6 +1,7 @@
 #!/bin/sh
 
-. _LIBRARY_PATH/_APPLICATION_NAME/project.directory.sh
+. _LIBRARY_PATH_/_APPLICATION_NAME_/project.directory.sh
+. _LIBRARY_PATH_/install/logging.sh
 
 # TODO: configure outside of here
 _COMPRESSION_FORMAT=xz
@@ -8,9 +9,7 @@ _COMPRESSION_CMD="xz -z"
 
 if [ "$#" -lt "2" ]
 then
-    echo "git archive"
-    echo "Source branch, branch (to archive and delete) are required"
-    exit 1
+    exitWithError "git archive: Source branch, branch (to archive and delete) are required" 1
 fi
 
 _SOURCE_BRANCH=$1

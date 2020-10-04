@@ -1,0 +1,27 @@
+#!/bin/sh
+
+.  _LIBRARY_PATH_/_APPLICATION_NAME_/include.sh
+
+if [ "$#" -lt "1" ]
+then
+    exitWithError "Expecting git url" 1
+fi
+
+_PROJECT=$1
+shift
+
+# local projects
+if [ "$(echo $_PROJECT | grep @ | wc -l)" -eq "0" ]
+then
+    _PROJECT_RELATIVE_PATH=$_PROJECT
+
+    _PROJECT=$MIRROR/$_PROJECT
+
+    _MIRROR_PATH=$(echo $MIRROR | sed -e "s/^.*@//" | sed -e "s/\:.*$//g")
+    _PROJECT_FULL_PATH=$_PROJECT_BASE_PATH/$_MIRROR_PATH/$_PROJECT_RELATIVE_PATH
+else
+    _PROJECT_PATH=$(echo $_PROJECT | sed -e "s/^.*@//" | sed -e "s/\:/\//g")
+    _PROJECT_FULL_PATH=$_PROJECT_BASE_PATH/$_PROJECT_PATH
+fi
+
+git clone $_PROJECT $_PROJECT_FULL_PATH

@@ -1,0 +1,48 @@
+#!/bin/sh
+
+. /usr/local/etc/walterjwhite/git-synchronization/git.conf
+. /usr/share/git-utilities.sh
+
+cleanup_git() {
+	local _count=0
+	
+	cd /tmp
+	for _project in $(find $_PROJECT_BASE_DIRECTORY -type d 2>/dev/null | grep -v /tmp/to-delete | grep \.git$ | sed -e "s/\.git//")
+	do
+		logger -i -t  "/usr/bin/cleanup-git" "checking $_project"
+		cd $_project
+		
+		local _status=$(git status -sb)
+		
+		local _ahead=$(echo -e "$_status" | grep -Pc "^##.{1,}\[ahead [\d]{1,}\]$")
+		if [ "$_ahead" -gt "0" ]
+		then
+			logger -i -t  "/usr/bin/cleanup-git" "$_project is ahead:"
+			logger -i -t  "/usr/bin/cleanup-git" "$_status"
+			
+			_count=$(($_count+1))
+			continue
+		else
+			local _uncommitted=$(echo -e "$_status" | grep -Pc "^(D|A|M|R|C|U|\?){1,}")
+			if [ "$_uncommitted" -gt "0" ]
+			then
+				logger -i -t  "/usr/bin/cleanup-git" "$_project has uncommited work:"
+				logger -i -t  "/usr/bin/cleanup-git" "($_uncommitted)"
+				
+				_count=$(($_count+1))
+				continue
+			fi
+		fi
+		
+		# delete this project
+		cd ..
+		logger -i -t  "/usr/bin/cleanup-git" "removing $_project"
+		mkdir -p /tmp/to-delete
+		mv $_project /tmp/to-delete
+	done
+	
+	return $_count
+}
+
+cleanup_git
+zenity --info --text="git cleanup, $? uncleaned projects"

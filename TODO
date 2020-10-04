@@ -1,0 +1,2 @@
+1. consider adding script to recursively scan ~/projects for uncommitted work
+   + push all (backup to mirror)

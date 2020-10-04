@@ -1,10 +1,11 @@
 #!/bin/sh
 
+. _LIBRARY_PATH_/install/logging.sh
+
 # install hooks
 if [ ! -e ~/.git-hooks ]
 then
-    echo "~/.git-hooks configuration does NOT exist, unable to continue"
-    exit 1
+    exitWithError "~/.git-hooks configuration does NOT exist, unable to continue" 1
 fi
 
 . ~/.git-hooks

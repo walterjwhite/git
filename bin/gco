@@ -1,9 +1,10 @@
 #!/bin/sh
 
+. _LIBRARY_PATH_/install/logging.sh
+
 if [ "$#" -lt "1" ]
 then
-    echo "Branch is required"
-    exit 1
+    exitWithError "Branch is required" 1
 fi
 
 _BRANCH=$1

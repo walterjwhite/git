@@ -1,9 +1,10 @@
 #!/bin/sh
 
+. _LIBRARY_PATH_/install/logging.sh
+
 if [ "$#" -lt "2" ]
 then
-  echo "Target Branch, Source Hash / Branch / Tag required."
-  exit 1
+  exitWithError "Target Branch, Source Hash / Branch / Tag required." 1
 fi
 
 _BRANCH=$1
