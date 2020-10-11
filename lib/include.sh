@@ -10,7 +10,12 @@ _git() {
     
     git add $1
     git commit $1 -m "$2"
-    git push
+
+    _has_remotes=$(git remote | wc -l)
+    if [ "$_has_remotes" -gt "0" ]
+    then
+        git push
+    fi
 }
 
 _git_init() {
