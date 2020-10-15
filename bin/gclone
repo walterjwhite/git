@@ -20,7 +20,7 @@ then
     _MIRROR_PATH=$(echo $MIRROR | sed -e "s/^.*@//" | sed -e "s/\:.*$//g")
     _PROJECT_FULL_PATH=$_PROJECT_BASE_PATH/$_MIRROR_PATH/$_PROJECT_RELATIVE_PATH
 else
-    _PROJECT_PATH=$(echo $_PROJECT | sed -e "s/^.*@//" | sed -e "s/\:/\//g")
+    _PROJECT_PATH=$(echo $_PROJECT | sed -e "s/^.*@//" | sed -e "s/\:\//\//g")
     _PROJECT_FULL_PATH=$_PROJECT_BASE_PATH/$_PROJECT_PATH
 fi
 
