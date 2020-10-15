@@ -15,13 +15,6 @@ _get_local_relative_path() {
 }
 
 _get_project_directory() {
-	#_in=$(pwd | grep -c $HOME)
-	_in=$(pwd | grep -c $_PROJECT_BASE_PATH)
-	if [ "$_in" -eq "0" ]
-	then
-		exitWithError "Outside $_PROJECT_BASE_PATH directory, unable to find project directory @  $(pwd)" 1
-	fi
-
 	if [ -e .git ]
 	then
 		_PROJECT_PATH=$(pwd)
@@ -29,6 +22,12 @@ _get_project_directory() {
 		_PROJECT=$(basename $_PROJECT_PATH)
 
 		return
+	fi
+
+	_git_in_project_base_path
+	if [ "$?" -eq "0" ]
+	then
+		exitWithError "Outside $_PROJECT_BASE_PATH directory, unable to find project directory @  $(pwd)" 1
 	fi
 
 	cd ..

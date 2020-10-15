@@ -8,5 +8,5 @@ then
     exitWithError "~/.git-hooks configuration does NOT exist, unable to continue" 1
 fi
 
-. ~/.git-hooks
-cp hooks/* $_SYSTEM_HOOK_PATH
+. ~/.config/walterjwhite/git-hooks
+tar cpf - -C hooks . | tar xpf - -C $_SYSTEM_HOOK_PATH

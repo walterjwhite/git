@@ -1,6 +1,14 @@
 #!/bin/sh
 
-. ~/.git-hooks
+# only run hooks if we're in the project base path
+. _LIBRARY_PATH_/git/include.sh
+_git_in_project_base_path
+if [ "$?" -eq "0" ]
+then
+    exit 0
+fi
+
+. ~/config/walterjwhite/git-hooks
 
 _action=$1
 shift

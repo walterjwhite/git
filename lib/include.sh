@@ -24,3 +24,7 @@ _git_init() {
         git clone "$MIRROR/$_PROJECT" $_PROJECT_PATH
     fi
 }
+
+_git_in_project_base_path() {
+    return $(pwd | grep -c $_PROJECT_BASE_PATH)
+}
