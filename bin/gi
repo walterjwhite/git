@@ -3,10 +3,10 @@
 . _LIBRARY_PATH_/install/logging.sh
 
 # install hooks
-if [ ! -e ~/.git-hooks ]
+if [ ! -e ~/.config/walterjwhite/git ]
 then
     exitWithError "~/.git-hooks configuration does NOT exist, unable to continue" 1
 fi
 
-. ~/.config/walterjwhite/git-hooks
+. ~/.config/walterjwhite/git
 tar cpf - -C hooks . | tar xpf - -C $_SYSTEM_HOOK_PATH

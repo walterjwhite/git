@@ -1,14 +1,14 @@
 #!/bin/sh
 
-# only run hooks if we're in the project base path
-. _LIBRARY_PATH_/git/include.sh
-_git_in_project_base_path
+. _LIBRARY_PATH_/_APPLICATION_NAME_/include.sh
+
+_git_in_user_home
 if [ "$?" -eq "0" ]
 then
     exit 0
 fi
 
-. ~/config/walterjwhite/git-hooks
+. _APPLICATION_CONFIG_PATH_
 
 _action=$1
 shift
@@ -34,3 +34,6 @@ _run_file() {
 
 _run_all ".hooks/$_action"
 _run_all "$_SYSTEM_HOOK_PATH/system-hooks/$_action"
+
+# path for submodules is different
+#git rev-parse --git-path hooks

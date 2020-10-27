@@ -4,14 +4,12 @@
 .  _LIBRARY_PATH_/install/logging.sh
 
 _get_project_relative_path() {
-	echo $1 | sed -e "s/^.*@//" | sed -e "s/\:\//\//g"
+	echo $1 | sed -e "s/^.*@//" | sed -e "s/\:\//\//g" | sed -e "s/\\.git$//"
 }
 
 _get_local_relative_path() {
-	local _length=${#_PROJECT_BASE_PATH}
-	_length=$((_length + 2))
-
-	echo $1 | cut -c $_length-
+	_SED_SAFE=$(echo $_PROJECT_BASE_PATH | sed -e "s/\//\\\\\//g")
+	echo $1 | sed -e "s/^.*${_SED_SAFE}//"
 }
 
 _get_project_directory() {
