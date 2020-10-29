@@ -25,7 +25,11 @@ _get_project_directory() {
 	_git_in_project_base_path
 	if [ "$?" -eq "0" ]
 	then
-		exitWithError "Outside $_PROJECT_BASE_PATH directory, unable to find project directory @  $(pwd)" 1
+		_in_data_path
+		if [ "$?" -eq "0" ]
+		then
+			exitWithError "Outside $_PROJECT_BASE_PATH directory, unable to find project directory @ $(pwd)" 1
+		fi
 	fi
 
 	cd ..
