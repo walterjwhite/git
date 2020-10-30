@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. _LIBRARY_PATH_/install/logging.sh
-
 # ensure commit message follows a template
 if [ "$#" -lt "1" ]
 then

@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. _LIBRARY_PATH_/install/logging.sh
-
 if [ "$#" -lt "2" ]
 then
   exitWithError "Target Branch, Source Hash / Branch / Tag required." 1

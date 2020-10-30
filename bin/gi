@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. _LIBRARY_PATH_/install/logging.sh
-
 # install hooks
 if [ ! -e ~/.config/walterjwhite/git ]
 then

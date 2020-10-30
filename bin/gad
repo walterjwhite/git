@@ -1,7 +1,5 @@
 #!/bin/sh
 
-. _LIBRARY_PATH_/install/logging.sh
-
 # TODO: support amending dates on specified commits
 # this will require branching, merging / cherry-picking
 if [ "$#" -lt "1" ]

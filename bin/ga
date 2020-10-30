@@ -1,7 +1,6 @@
 #!/bin/sh
 
 . _LIBRARY_PATH_/_APPLICATION_NAME_/project.directory.sh
-. _LIBRARY_PATH_/install/logging.sh
 
 # TODO: configure outside of here
 _COMPRESSION_FORMAT=xz
