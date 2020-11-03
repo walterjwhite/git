@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if [ -z "$(git status --porcelain)" ]
+if [ "$(g-is-clean)" -eq 1 ]
 then
     exitWithError "No changes" 1
 fi
