@@ -3,24 +3,22 @@
 . _LIBRARY_PATH_/_APPLICATION_NAME_/project.directory.sh
 
 # prints a list of commits since a date ...
-for _ARG in $@
-do
-    case $_ARG in
-        # lines
-        -b=*)
-            _BRANCH="${_ARG#*=}"
-            shift
-            ;;
-        *)
-            _SINCE=$_ARG
-    esac
+for _ARG in $@; do
+	case $_ARG in
+	# lines
+	-b=*)
+		_BRANCH="${_ARG#*=}"
+		shift
+		;;
+	*)
+		_SINCE=$_ARG
+		;;
+	esac
 done
 
-if [ -z "$_SINCE" ]
-then
-    exitWithError "Since is required" 1
+if [ -z "$_SINCE" ]; then
+	exitWithError "Since is required" 1
 fi
 
-git log $_BRANCH --since="$_SINCE"\
-    | grep commit\
-    | awk '{print$2}'
+git log $_BRANCH --since="$_SINCE" |
+	grep commit | awk '{print$2}'

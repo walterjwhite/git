@@ -1,8 +1,7 @@
 #!/bin/sh
 
-if [ "$#" -lt "2" ]
-then
-  exitWithError "Target Branch, Source Hash / Branch / Tag required." 1
+if [ "$#" -lt "2" ]; then
+	exitWithError "Target Branch, Source Hash / Branch / Tag required." 1
 fi
 
 _BRANCH=$1

@@ -6,9 +6,8 @@
 _COMPRESSION_FORMAT=xz
 _COMPRESSION_CMD="xz -z"
 
-if [ "$#" -lt "2" ]
-then
-    exitWithError "git archive: Source branch, branch (to archive and delete) are required" 1
+if [ "$#" -lt "2" ]; then
+	exitWithError "git archive: Source branch, branch (to archive and delete) are required" 1
 fi
 
 _SOURCE_BRANCH=$1
@@ -25,14 +24,13 @@ gco $_SOURCE_BRANCH
 _ARCHIVE_FILENAME=../${_PROJECT}-${_SAFE_SOURCE_BRANCH}-${_SAFE_BRANCH}-$(date +%Y.%m.%d-%H.%M.%S).patch.${_COMPRESSION_FORMAT}
 
 # create patch
-git diff $_SOURCE_BRANCH $_BRANCH | $_COMPRESSION_CMD > $_ARCHIVE_FILENAME
+git diff $_SOURCE_BRANCH $_BRANCH | $_COMPRESSION_CMD >$_ARCHIVE_FILENAME
 echo "Patch created @ $_ARCHIVE_FILENAME"
 
 # drop branch
 git branch -D $_BRANCH
 
 # delete from remotes
-for _REMOTE in $(git remote)
-do
-    git push $_REMOTE :$_BRANCH
+for _REMOTE in $(git remote); do
+	git push $_REMOTE :$_BRANCH
 done

@@ -3,9 +3,8 @@
 . _LIBRARY_PATH_/_APPLICATION_NAME_/include.sh
 
 _git_in_user_home
-if [ "$?" -eq "0" ]
-then
-    exit 0
+if [ "$?" -eq "0" ]; then
+	exit 0
 fi
 
 . _APPLICATION_CONFIG_PATH_
@@ -14,13 +13,11 @@ _action=$1
 shift
 
 _run_all() {
-	if [ -d "$1" ]
-	then
-		  _log ".git-hooks.sh" "running hook:$_action"
+	if [ -d "$1" ]; then
+		_log ".git-hooks.sh" "running hook:$_action"
 
 		# run the hooks in order
-		for _file in $(find $1 ! -type d ! -type b ! -type c ! -type p ! -type s | sort -g)
-		do
+		for _file in $(find $1 ! -type d ! -type b ! -type c ! -type p ! -type s | sort -g); do
 			_run_file
 		done
 	fi
@@ -33,7 +30,7 @@ _run_file() {
 }
 
 _run_all ".hooks/$_action"
-_run_all "$_SYSTEM_HOOK_PATH/system-hooks/$_action"
+_run_all "$_SYSTEM_TEMPLATE_PATH/system-hooks/$_action"
 
 # path for submodules is different
 #git rev-parse --git-path hooks

@@ -1,5 +1,4 @@
 #!/bin/sh
 
-git branch --no-color\
-    | sed -e "s/^\* //"\
-    | sed -e "s/^  //"
+git branch --no-color | sed -e "s/^\* //" |
+	sed -e "s/^  //"

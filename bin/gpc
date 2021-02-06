@@ -1,14 +1,11 @@
 #!/bin/sh
 
-if [ "$#" -lt "1" ]
-then
-    exitWithError "Identifier is required" 1
+if [ "$#" -lt "1" ]; then
+	exitWithError "Identifier is required" 1
 fi
 
 _IDENTIFIER=$1
 shift
 
-git log $_IDENTIFIER^1\
-    | grep commit\
-    | awk '{print$2}'\
-    | head -1
+git log $_IDENTIFIER^1 | grep commit | awk '{print$2}' |
+	head -1

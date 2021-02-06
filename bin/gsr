@@ -4,14 +4,12 @@ _GIT_MAX_DEPTH=3
 
 _PWD=$PWD
 
-for _PROJECT in $(find . -type d -maxdepth $_GIT_MAX_DEPTH\
-    | grep \\.git$\
-    | sed -e "s/\\.git$//")
-do
-    info "$_PROJECT - git status"
-    cd $_PROJECT
+for _PROJECT in $(find . -type d -maxdepth $_GIT_MAX_DEPTH | grep \\.git$ |
+	sed -e "s/\\.git$//"); do
+	info "$_PROJECT - git status"
+	cd $_PROJECT
 
-    git status
+	git status
 
-    cd $_PWD
+	cd $_PWD
 done

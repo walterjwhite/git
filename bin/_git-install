@@ -1,0 +1,11 @@
+#!/bin/sh
+
+# install template
+if [ ! -e ~/.config/walterjwhite/git ]; then
+	exitWithError "~/.config/walterjwhite/git configuration does NOT exist, unable to continue" 1
+fi
+
+. ~/.config/walterjwhite/git
+
+info "Installing .git-template to $_SYSTEM_TEMPLATE_PATH"
+tar cpf - -C .git-template . | tar xpf - -C $_SYSTEM_TEMPLATE_PATH

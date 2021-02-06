@@ -2,9 +2,8 @@
 
 # TODO: support amending dates on specified commits
 # this will require branching, merging / cherry-picking
-if [ "$#" -lt "1" ]
-then
-  exitWithError "git amend date: Date is required, ie. Wed Dec 19 09:21:37 2018 -0500" 1
+if [ "$#" -lt "1" ]; then
+	exitWithError "git amend date: Date is required, ie. Wed Dec 19 09:21:37 2018 -0500" 1
 fi
 
 _DATE="$1"

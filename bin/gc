@@ -1,19 +1,17 @@
 #!/bin/sh
 
 # ensure commit message follows a template
-if [ "$#" -lt "1" ]
-then
-  exitWithError "git commit: message is required." 1
+if [ "$#" -lt "1" ]; then
+	exitWithError "git commit: message is required." 1
 fi
 
 _BRANCH=$(gcb)
 _BRANCH_SHORT_NAME=$(basename $_BRANCH)
 
-if [ "$_BRANCH" = "$_BRANCH_SHORT_NAME" ]
-then
-  _MESSAGE="$_BRANCH"
+if [ "$_BRANCH" = "$_BRANCH_SHORT_NAME" ]; then
+	_MESSAGE="$_BRANCH"
 else
-  _MESSAGE="$_BRANCH - $_BRANCH_SHORT_NAME"
+	_MESSAGE="$_BRANCH - $_BRANCH_SHORT_NAME"
 fi
 
 git commit -am "$_MESSAGE - $1"

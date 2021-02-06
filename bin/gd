@@ -1,15 +1,11 @@
 #!/bin/sh
 
-if [ "$(g-is-clean)" -eq 1 ]
-then
-    exitWithError "No changes" 1
+if [ "$(_git-is-clean)" -eq 1 ]; then
+	exitWithError "No changes" 1
 fi
 
-if [ "$(git log -1 2>/dev/null | grep commit | wc -l)" -gt "0" ]
-then
-    git diff --unified -w
+if [ "$(git log -1 2>/dev/null | grep commit | wc -l)" -gt "0" ]; then
+	git diff HEAD --unified -w
 else
-    find . -type f\
-    | grep -v \\.git\
-    | xargs -L 1 -I _F $EDITOR _F
+	find . -type f | grep -v \\.git | xargs -L 1 -I _F $EDITOR _F
 fi
