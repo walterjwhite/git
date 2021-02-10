@@ -7,8 +7,13 @@ _get_project_relative_path() {
 }
 
 _get_local_relative_path() {
-	_SED_SAFE=$(echo $_PROJECT_BASE_PATH | sed -e "s/\//\\\\\//g")
-	echo $1 | sed -e "s/^.*${_SED_SAFE}//"
+	if [ $(echo $1 | grep -c $_PROJECT_BASE_PATH) -gt 0 ]; then
+		_PROJECT_SED_SAFE=$(echo $_PROJECT_BASE_PATH | sed -e "s/\//\\\\\//g")
+		echo $1 | sed -e "s/^.*${_PROJECT_SED_SAFE}/projects/" | sed -e "s/^\///"
+	else
+		_DATA_SED_SAFE=$(echo $_DATA_BASE_PATH | sed -e "s/\//\\\\\//g")
+		echo $1 | sed -e "s/^.*${_DATA_SED_SAFE}/data/" | sed -e "s/^\///"
+	fi
 }
 
 _get_project_directory() {
@@ -24,7 +29,7 @@ _get_project_directory() {
 	if [ "$?" -eq "0" ]; then
 		_in_data_path
 		if [ "$?" -eq "0" ]; then
-			exitWithError "Outside $_PROJECT_BASE_PATH directory, unable to find project directory @ $(pwd)" 1
+			exitWithError "Outside $_PROJECT_BASE_PATH / $_DATA_BASE_PATH directory, unable to find project directory @ $(pwd)" 1
 		fi
 	fi
 

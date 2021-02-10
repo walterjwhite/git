@@ -1,6 +1,7 @@
 #!/bin/sh
 
 _PROJECT_BASE_PATH=~/projects
+_DATA_BASE_PATH=~/.data
 
 # configure mirror location
 . _APPLICATION_CONFIG_PATH_
@@ -26,7 +27,7 @@ _git_init() {
 }
 
 _git_in_project_base_path() {
-	return $(pwd | grep -c $_PROJECT_BASE_PATH)
+	return $(pwd | $GNU_GREP -c "($_PROJECT_BASE_PATH|$_DATA_BASE_PATH)")
 }
 
 _git_in_user_home() {
