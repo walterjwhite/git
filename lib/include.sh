@@ -27,7 +27,7 @@ _git_init() {
 }
 
 _git_in_project_base_path() {
-	return $(pwd | $GNU_GREP -c "($_PROJECT_BASE_PATH|$_DATA_BASE_PATH)")
+	return $(pwd | $GNU_GREP -Pc "($_PROJECT_BASE_PATH|$_DATA_BASE_PATH)")
 }
 
 _git_in_user_home() {
