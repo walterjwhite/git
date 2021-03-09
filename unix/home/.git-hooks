@@ -3,5 +3,5 @@
 _SYSTEM_HOOK_PATH=/usr/local/share/git-core/templates
 
 _log() {
-    logger -i -t $1 $2
+	logger -i -t $1 $2
 }
