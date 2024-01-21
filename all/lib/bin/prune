@@ -1,0 +1,7 @@
+#!/bin/sh
+
+for _PROJECT in $(find $_PROJECT_BASE_DIRECTORY \( -type d -or -type f \) -and -name '.git' | sed -e "s/\.git$//"); do
+	cd $_PROJECT
+
+	gdob
+done

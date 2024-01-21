@@ -1,0 +1,10 @@
+#!/bin/sh
+
+
+import project.directory.sh
+_get_project_directory
+
+_require "$_GIT_SINCE" _GIT_SINCE
+
+git log $_GIT_REF --since="$_GIT_SINCE" |
+	grep commit | awk '{print$2}'

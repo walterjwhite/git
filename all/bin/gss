@@ -1,0 +1,31 @@
+#!/bin/sh
+
+import git:install/sed.sh
+import git:install/file.sh
+import include.sh
+
+if [ -z "$_GIT_STATUS_RECURSIVE" ]; then
+	_git_in_working_directory || {
+		_info "Running git status recursively"
+
+		_GIT_STATUS_RECURSIVE=1
+		find . \( -type d -or -type f \) -and -name '.git' -execdir gss \;
+		exit
+	}
+else
+	_git_relative_path
+fi
+
+if [ $(gb 2>/dev/null | wc -l) -gt 1 ]; then
+	if [ -z "$_GIT_STATUS_RECURSIVE" ]; then
+		gcb
+	else
+		_info "$_PROJECT_RELATIVE_PATH ($(gcb))"
+	fi
+else
+	if [ -n "$_GIT_STATUS_RECURSIVE" ]; then
+		_info "$_PROJECT_RELATIVE_PATH"
+	fi
+fi
+
+git status -s "$@" 2>/dev/null

@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [ "$#" -lt "1" ]; then
+	_error "Identifier is required"
+fi
+
+_IDENTIFIER=$1
+shift
+
+git log $_IDENTIFIER^1 |
+	grep commit |
+	awk '{print$2}' |
+	head -1
