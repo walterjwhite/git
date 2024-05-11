@@ -1,0 +1,16 @@
+#!/bin/sh
+
+import git:install/file.sh
+import project.directory.sh
+_get_project_directory
+
+for _ARG in "$@"; do
+	_require_file "$_ARG" _ || continue
+
+	_TARGET_PARENT_DIRECTORY=$_PROJECT_PATH/.archived/$(dirname "$_ARG")
+
+	mkdir -p $_TARGET_PARENT_DIRECTORY
+	git mv "$_ARG" $_TARGET_PARENT_DIRECTORY
+done
+
+gcommit $@ .archived -m 'archived'

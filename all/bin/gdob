@@ -1,0 +1,86 @@
+#!/bin/sh
+
+import include.sh
+
+
+_git_delete_branches() {
+	_info "archiving/deleting old branches - $PWD"
+
+	gpull
+
+	_REPOSITORY_CLONE_FILE=$_APPLICATION_DATA_PATH/$(basename $PWD)-$(date +%Y.%m.%d-%H.%M.%S).backup
+	git clone --mirror . $_REPOSITORY_CLONE_FILE
+
+	for _BRANCH in $(gb -a); do
+		gco $_BRANCH
+
+		local status=$(git status -sb)-
+		local ahead=$(printf '%s\n' "$_status" | $_CONF_INSTALL_GNU_GREP -Pc "^##.{1,}\[ahead [\d]{1,}\]$")
+		if [ "$ahead" -gt "0" ]; then
+			_warn "$_BRANCH is ahead: $ahead"
+			_detail "$status"
+
+			continue
+		fi
+
+		if [ "$(git ls-remote --heads origin refs/heads/$_BRANCH | wc -l)" -eq "0" ]; then
+			_warn "$_BRANCH does not exist on remote (origin)"
+			continue
+		fi
+
+		local _has_changes=$(_GIT_REF=$_BRANCH gcs $_DELETE_DATE | wc -l)
+		if [ "$_has_changes" -eq "0" ]; then
+			_warn "delete $_BRANCH - NO activity since $_DELETE_DATE"
+			_git_delete_branch
+
+			if [ $? -eq 0 ]; then
+				gco $(gb -a | grep -v "^${_BRANCH}$" | head -1)
+				gb -D $_BRANCH
+
+				_warn "deleted $_BRANCH locally"
+			fi
+		else
+			_debug "$_BRANCH is active (since $_DELETE_DATE), retaining (!delete)"
+		fi
+	done
+
+	if [ -z "$_REPOSITORY_HAS_DELETED_BRANCHES" ]; then
+		_warn "No branches were deleted, dropping backup file"
+		rm -rf $_REPOSITORY_CLONE_FILE
+	fi
+
+	_info "done archiving/deleting old branches - $PWD"
+}
+
+_git_delete_branch() {
+	_warn "Deleting: $_BRANCH"
+
+	for _REMOTE in $(git remote); do
+		if [ $_CONF_GIT_DELETE_DRYRUN -gt 0 ]; then
+			_warn "DRYRUN: git push $_REMOTE :$_BRANCH"
+			continue
+		fi
+
+		git push $_REMOTE :$_BRANCH
+
+		if [ $? -gt 0 ]; then
+			_warn "Unable to delete branch on remote, aborting: $_BRANCH"
+
+			return 1
+		fi
+
+		_REPOSITORY_HAS_DELETED_BRANCHES=1
+	done
+}
+
+if [ -z "$_GIT_RECURSIVE" ]; then
+	_git_in_working_directory || {
+		_GIT_RECURSIVE=1
+		find . \( -type d -or -type f \) -and -name '.git' -execdir gdob "$@" \;
+
+		exit
+	}
+fi
+
+_DELETE_DATE=$(date -v $_CONF_GIT_DELETE_PERIOD +%Y/%m/%d)
+_git_delete_branches

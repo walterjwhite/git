@@ -1,0 +1,28 @@
+#!/bin/sh
+
+
+import project.directory.sh
+_get_project_directory
+
+if [ "$#" -lt "1" ]; then
+	_error "Identifier / since is required"
+fi
+
+_cleanup() {
+	rm -f $_ALL $_CHANGED
+}
+
+_ALL=$(mktemp)
+_CHANGED=$(mktemp)
+
+_SAFE_PATH=$(printf '%s' $_PROJECT_PATH/ | sed -e "s/\//\\\\\//g")
+
+find $_PROJECT_PATH -type f | grep -v \\.git | sed '/^[[:space:]]*$/d' |
+	sort -u | sed -e "s/$_SAFE_PATH//g" \
+	>$_ALL
+
+gcf $@ |
+	sed '/^[[:space:]]*$/d' |
+	sort -u >$_CHANGED
+
+comm -1 -3 $_CHANGED $_ALL

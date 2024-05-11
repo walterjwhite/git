@@ -1,0 +1,3 @@
+#!/bin/sh
+
+_install-files $_TARGET_PLATFORM/files/git-template $_CONF_GIT_TEMPLATE_PATH $_TARGET_APPLICATION_NAME

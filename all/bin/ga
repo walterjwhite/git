@@ -1,0 +1,31 @@
+#!/bin/sh
+
+
+import project.directory.sh
+_get_project_directory
+
+if [ "$#" -lt "2" ]; then
+	_error "git archive: Source branch, branch (to archive and delete) are required"
+fi
+
+_SOURCE_REFERENCE=$1
+_SAFE_SOURCE_REFERENCE=$(printf '%s' $1 | sed -e "s/\///g")
+shift
+
+_REFERENCE=$1
+_SAFE_REFERENCE=$(printf '%s' $1 | sed -e "s/\///g")
+shift
+
+gco $_SOURCE_REFERENCE
+
+_ARCHIVE_FILENAME=$_APPLICATION_DATA_PATH/${_PROJECT}-${_SAFE_SOURCE_REFERENCE}-${_SAFE_REFERENCE}-$(date +%Y.%m.%d-%H.%M.%S).patch.${_CONF_GIT_COMPRESSION_FORMAT}
+mkdir -p $(dirname $_ARCHIVE_FILENAME)
+
+git diff $_SOURCE_REFERENCE $_REFERENCE | $_CONF_GIT_COMPRESSION_CMD >$_ARCHIVE_FILENAME
+_info "Patch created @ $_ARCHIVE_FILENAME"
+
+git branch -D $_REFERENCE
+
+for _REMOTE in $(git remote); do
+	git push $_REMOTE :$_REFERENCE
+done
