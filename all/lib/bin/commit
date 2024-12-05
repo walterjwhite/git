@@ -1,0 +1,14 @@
+#!/bin/sh
+
+if [ -n "$_PWD" ]; then
+	if [ "$_PWD" = "$(pwd)" ]; then
+		exit 0
+	fi
+fi
+
+if [ -n "$_BRANCH" ]; then
+	gco $_BRANCH
+fi
+
+gcommit -am "$_MESSAGE"
+gpush

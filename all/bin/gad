@@ -1,0 +1,11 @@
+#!/bin/sh
+
+
+if [ "$#" -lt "1" ]; then
+	_error "git amend date: Date is required, ie. Wed Dec 19 00:00:00 2018 -0500"
+fi
+
+_DATE="$1"
+shift
+
+git commit --amend --no-edit --date="$_DATE"

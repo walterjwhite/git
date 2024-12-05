@@ -1,0 +1,15 @@
+#!/bin/sh
+
+if [ "$#" -lt "2" ]; then
+	_error "Target Branch, Source Hash / Branch / Tag required."
+fi
+
+_BRANCH=$1
+shift
+
+_ORIGINAL_BRANCH=$(gcb)
+gco $_BRANCH
+gcp $1
+gpush
+
+gco $_ORIGINAL_BRANCH
